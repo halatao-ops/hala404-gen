@@ -64,5 +64,6 @@ EXPOSE 10006
 HEALTHCHECK --interval=15s --timeout=5s --start-period=60s --retries=3 \
   CMD curl -sf http://localhost:10006/health || exit 1
 
+COPY prompts ./prompts
 COPY docker ./docker
 ENTRYPOINT ["/bin/bash", "/app/docker/entrypoint.sh"]
