@@ -1,0 +1,4 @@
+# Pinned exactly — the orchestrator may reject submissions with floating deps as
+# non-reproducible. Bump these deliberately, never with >= ranges.
+fastapi==0.141.1
+uvicorn==0.52.4
