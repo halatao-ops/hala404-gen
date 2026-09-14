@@ -61,7 +61,7 @@ ENV RENDER_URL=http://localhost:8000 \
 # The orchestrator connects here. Binding 127.0.0.1 makes the pod unreachable.
 EXPOSE 10006
 
-HEALTHCHECK --interval=15s --timeout=5s --start-period=60s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=3600s --retries=5 \
   CMD curl -sf http://localhost:10006/health || exit 1
 
 COPY prompts ./prompts
