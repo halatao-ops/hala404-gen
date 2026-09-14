@@ -21,7 +21,7 @@ if [ "$N_GPUS" -eq 0 ]; then
   ( cd /app/render-service-js && PORT="$RENDER_PORT" node src/server.js ) &
   for i in $(seq 1 300); do curl -sf -o /dev/null "http://localhost:$RENDER_PORT/ping" && break; sleep 1; done
   export RENDER_URL="http://localhost:$RENDER_PORT"
-  exec python -u /app/service/main.py
+  exec /usr/bin/python3 -u /app/service/main.py
 fi
 
 echo "[entrypoint] render sidecar :$RENDER_PORT"
@@ -55,4 +55,4 @@ wait_llm 8200 judge || exit 1
 
 export CODER_URLS JUDGE_URL="http://localhost:8200/v1" RENDER_URL="http://localhost:$RENDER_PORT"
 echo "[entrypoint] starting miner API :$PORT (coders: $CODER_URLS)"
-exec python -u /app/service/main.py
+exec /usr/bin/python3 -u /app/service/main.py
