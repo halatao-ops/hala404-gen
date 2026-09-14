@@ -13,7 +13,7 @@ Config is environment-driven so the image is rebuilt only when code changes:
   CODER_URL / CODER_MODEL / CODER_KEY      OpenAI-compatible coder endpoint
   JUDGE_URL / JUDGE_MODEL / JUDGE_KEY      OpenAI-compatible judge endpoint
   RENDER_URL          default http://localhost:8000
-  MAX_ENSEMBLE        default 32      candidates per prompt when time allows
+  MAX_ENSEMBLE        default 8      candidates per prompt when time allows
   MIN_ENSEMBLE        default 1
   TARGET_TOTAL_S      default 5000    stay under the 7200 s audit cap with margin
   EXPECTED_PROMPTS    default 128
@@ -102,7 +102,7 @@ def build_state() -> PodState:
         judge,
         RenderClient(_env("RENDER_URL", "http://localhost:8000"),
                      n_views=int(_env("N_VIEWS", "12"))),
-        ensemble=int(_env("MAX_ENSEMBLE", "32")),
+        ensemble=int(_env("MAX_ENSEMBLE", "8")),
         max_iter=int(_env("MAX_ITER", "2")),
         score_threshold=2.0,     # unreachable on purpose: validity is the stop condition
         use_fallback=True,
