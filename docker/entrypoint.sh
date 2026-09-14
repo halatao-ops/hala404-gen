@@ -14,6 +14,7 @@ PORT="${PORT:-10006}"
 CODER=Tooony133/Qwen-3.6-27B-OupiGoupi
 CODER_REV=1683b08dfa4a36b0ad09fa50c222674caf69c2d0
 JUDGE=zai-org/GLM-4.6V-Flash
+JUDGE_REV=411bb4d77144a3f03accbf4b780f5acb8b7cde4e
 N_GPUS=$(nvidia-smi --query-gpu=index --format=csv,noheader 2>/dev/null | wc -l)
 echo "[entrypoint] $N_GPUS GPUs visible"
 if [ "$N_GPUS" -eq 0 ]; then
@@ -47,7 +48,7 @@ for g in 0 $( [ "$N_GPUS" -ge 2 ] && echo 1 ); do wait_llm $((8100+g)) "coder$g"
 # phase 2: judge (only after coders settle)
 JGPU=$(( N_GPUS >= 3 ? 2 : 0 ))
 JUTIL=$([ "$N_GPUS" -ge 3 ] && echo 0.90 || echo 0.35)
-CUDA_VISIBLE_DEVICES=$JGPU vllm serve "$JUDGE" --port 8200 --served-model-name judge \
+CUDA_VISIBLE_DEVICES=$JGPU vllm serve "$JUDGE" --revision "$JUDGE_REV" --port 8200 --served-model-name judge \
   --tensor-parallel-size 1 --gpu-memory-utilization "$JUTIL" \
   --max-model-len 32768 --max-num-seqs 16 --limit-mm-per-prompt '{"image":4}' \
   --trust-remote-code > /var/log/judge.log 2>&1 &
