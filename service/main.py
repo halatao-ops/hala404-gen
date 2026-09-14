@@ -111,7 +111,7 @@ def build_state() -> PodState:
         pipe,
         target_total_seconds=float(_env("TARGET_TOTAL_S", "5000")),
         expected_total_prompts=int(_env("EXPECTED_PROMPTS", "128")),
-        max_ensemble=int(_env("MAX_ENSEMBLE", "20")),
+        max_ensemble=int(_env("MAX_ENSEMBLE", "8")),
         min_ensemble=int(_env("MIN_ENSEMBLE", "1")),
         concurrency=int(_env("CONCURRENCY", "8")),
     )
